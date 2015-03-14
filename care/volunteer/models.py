@@ -8,6 +8,6 @@ class Volunteer(models.Model):
     status = models.ForeignKey(Status)
 
     class Meta:
-    	unique_together = (("user", "status"),)
+        unique_together = (("user", "status"),)
 
 # Create your models here.

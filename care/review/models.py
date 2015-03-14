@@ -6,6 +6,6 @@ from status.models import Status
 
 class Review(models.Model):
     user = models.ForeignKey(Users)
-    status = models.ForeignKey(status)
+    status = models.ForeignKey(Status)
     rate = models.IntegarField()
     comment = models.TextField(max_length=200)
