@@ -7,11 +7,11 @@ from rest_framework.exceptions import ParseError
 from rest_framework.decorators import detail_route
 from django.shortcuts import get_object_or_404
 
-from models import Volunteer
-from serializers import VolunteerSerializer
+from models import Status
+from serializers import StatusSerializer
 
-class VolunteerViewset(viewsets.ModelViewSet):
+class StatusViewset(viewsets.ModelViewSet):
 
-    model = Volunteer
-    serializer_class = VolunteerSerializer
-    queryset = Volunteer.objects.all()
+    model = Status
+    serializer_class = StatusSerializer
+    queryset = Status.objects.all()
