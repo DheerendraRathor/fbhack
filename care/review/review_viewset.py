@@ -7,11 +7,11 @@ from rest_framework.exceptions import ParseError
 from rest_framework.decorators import detail_route
 from django.shortcuts import get_object_or_404
 
-from models import Users
-from serializers import UsersSerializer
+from models import Review
+from serializers import ReviewSerializer
 
-class UserViewset(viewsets.ModelViewSet):
+class ReviewViewset(viewsets.ModelViewSet):
 
-    model = Users
-    serializer_class = UsersSerializer
-    queryset = Users.objects.all()
+    model = Review
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
