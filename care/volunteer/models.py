@@ -4,8 +4,8 @@ from status.models import Status
 
 
 class Volunteer(models.Model):
-	user = models.ForeignKey(Users)
-    status = models.ForeignKey(status)
+    user = models.ForeignKey(Users)
+    status = models.ForeignKey(Status)
 
     class Meta:
     	unique_together = (("user", "status"),)
