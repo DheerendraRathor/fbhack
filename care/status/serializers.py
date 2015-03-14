@@ -3,6 +3,8 @@ __author__ = 'dheerendra'
 from models import Status
 from rest_framework import serializers
 from pygeocoder import Geocoder
+import geocoder
+from geocoder import osm
 
 class StatusSerializer(serializers.ModelSerializer):
 
@@ -32,3 +34,5 @@ class StatusSerializer(serializers.ModelSerializer):
         data = geo.geocode(address=address)
         data = data[0]
         return data.formatted_address
+
+
