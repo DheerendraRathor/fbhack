@@ -12,6 +12,12 @@ from models import Status
 from serializers import StatusSerializer
 from django.db.models import Avg, Count, Sum
 
+def getNESW(latitude, longitude):
+    ne = (latitude + (0.008983) * 1, longitude + (0.015060) * 1)
+    sw = (latitude - (0.008983) * 1, longitude - (0.015060) * 1)
+
+    return ne, sw
+
 class StatusViewset(viewsets.ModelViewSet):
 
     model = Status
@@ -23,8 +29,7 @@ class StatusViewset(viewsets.ModelViewSet):
         latitude = float(request.GET['latitude'])
         longitude = float(request.GET['longitude'])
         #address = "%s,%s" % (str(latitude), str(longitude))
-        ne = (latitude + (0.008983) * 1, longitude + (0.015060) * 1)
-        sw = (latitude - (0.008983) * 1, longitude - (0.015060) * 1)
+        ne, sw = getNESW(latitude, longitude)
 
         queryset = Status.objects.all().filter(latitude__gte=sw[0]).filter(latitude__lte=ne[0]).filter(longitude__gte=sw[1]).filter(longitude__lte=ne[1])
         serializer = StatusSerializer(queryset, many=True)
@@ -48,8 +53,7 @@ class StatusViewset(viewsets.ModelViewSet):
         latitude = float(request.GET['latitude'])
         longitude = float(request.GET['longitude'])
         #address = "%s,%s" % (str(latitude), str(longitude))
-        ne = (latitude + (0.008983) * 1, longitude + (0.015060) * 1)
-        sw = (latitude - (0.008983) * 1, longitude - (0.015060) * 1)
+        ne,sw = getNESW(latitude, longitude)
 
         queryset = Status.objects.all()\
             .filter(latitude__gte=sw[0]).filter(latitude__lte=ne[0]).filter(longitude__gte=sw[1]).filter(longitude__lte=ne[1])\
@@ -75,5 +79,10 @@ class StatusViewset(viewsets.ModelViewSet):
             count = int(request.GET['count'])
         except:
             count = 5
-        queryset = Status.objects.all().exclude(image__isnull=True).exclude(image__exact='').values('image')[:count]
+        latitude = float(request.GET['latitude'])
+        longitude = float(request.GET['longitude'])
+        ne, sw = getNESW(latitude, longitude)
+        queryset = Status.objects.all()\
+            .filter(latitude__lte=ne[0]).filter(longitude__gte=sw[1]).filter(longitude__lte=ne[1])\
+            .exclude(image__isnull=True).exclude(image__exact='').values('image')[:count]
         return Response(queryset)
