@@ -7,4 +7,3 @@ class VolunteerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Volunteer
-        fields = ('id', 'user', 'status')
