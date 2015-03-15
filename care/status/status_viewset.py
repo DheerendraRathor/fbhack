@@ -68,3 +68,12 @@ class StatusViewset(viewsets.ModelViewSet):
 
         #serializers = StatusSerializer(queryset, many=True)
         return Response(queryset)
+
+    @detail_route(methods=['GET'])
+    def get_images(self, request, pk):
+        try:
+            count = int(request.GET['count'])
+        except:
+            count = 5
+        queryset = Status.objects.all().exclude(image__isnull=True).exclude(image__exact='').values('image')[:count]
+        return Response(queryset)
