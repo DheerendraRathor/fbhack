@@ -8,16 +8,22 @@ from users.serializers import UsersSerializer
 class StatusSerializer(serializers.ModelSerializer):
 
     address = serializers.CharField(allow_blank=True)
-    user = UsersSerializer()
+    username = serializers.SerializerMethodField()
+
     class Meta:
         model = Status
         read_only_fields = ('address')
+
 
     def create(self, validated_data):
         status = Status(**validated_data)
         status.address = self.get_address(validated_data['latitude'], validated_data['longitude'])
         status.save()
         return status
+
+    def get_username(self, status):
+        user = status.user
+        return user.first_name + " " + user.last_name
 
     def get_address(self, latitude, longitude):
         geo = Geocoder()
